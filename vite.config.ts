@@ -26,6 +26,7 @@ export default defineConfig(({ command, mode }) => {
           },
         };
       case "client":
+      default: // Default to client build if no mode specified
         return {
           base: "/",
           build: {
@@ -42,40 +43,40 @@ export default defineConfig(({ command, mode }) => {
           },
         };
     }
-  } else {
-    // dev configuration
-    return {
-      base: "./",
-      plugins: [
-        devServer({
-          entry: "src/server/main.ts",
-          adapter: nodeAdapter,
-          handleHotUpdate: ({ server }) => {
-            // for now, we just do a full reload on any file change
-            // we may want to change this later to only reload on specific file/filetype changes
-            server.hot.send({ type: "full-reload" });
-
-            // https://github.com/honojs/vite-plugins/tree/main/packages/dev-server#options
-            // const isSSR = modules.some((mod) => mod._ssrModule);
-            // if (isSSR) {
-            //   server.hot.send({ type: "full-reload" });
-            //   return [];
-            // }
-            // if (file.endsWith(".ts") || file.endsWith(".tsx")) {
-            //   server.ws.send({
-            //     type: "full-reload",
-            //   });
-            // }
-          },
-        }),
-      ],
-      resolve: {
-        alias: {
-          "@": path.resolve(__dirname, "src/client"),
-          "@shared": path.resolve(__dirname, "src/shared"),
-        },
-      },
-    };
   }
+
+  // dev configuration
+  return {
+    base: "./",
+    plugins: [
+      devServer({
+        entry: "src/server/main.ts",
+        adapter: nodeAdapter,
+        handleHotUpdate: ({ server }) => {
+          // for now, we just do a full reload on any file change
+          // we may want to change this later to only reload on specific file/filetype changes
+          server.hot.send({ type: "full-reload" });
+
+          // https://github.com/honojs/vite-plugins/tree/main/packages/dev-server#options
+          // const isSSR = modules.some((mod) => mod._ssrModule);
+          // if (isSSR) {
+          //   server.hot.send({ type: "full-reload" });
+          //   return [];
+          // }
+          // if (file.endsWith(".ts") || file.endsWith(".tsx")) {
+          //   server.ws.send({
+          //     type: "full-reload",
+          //   });
+          // }
+        },
+      }),
+    ],
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "src/client"),
+        "@shared": path.resolve(__dirname, "src/shared"),
+      },
+    },
+  };
 });
 
