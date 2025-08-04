@@ -38,11 +38,10 @@ app.get("/", (c) => {
 `);
 });
 
-// Serve static assets in production (after routes)
-if (isProd) {
-  // Serve all static files from dist folder
-  app.use("/*", serveStatic({ root: "./dist" }));
-}
+console.log("hi there");
+
+// when in production, we have to serve static files from the dist folder
+if (isProd) app.use("/*", serveStatic({ root: "./dist" }));
 
 if (isProd) {
   serve(app, (info) => console.log(`Server running at http://localhost:${info.port}`));
