@@ -1,0 +1,27 @@
+{
+  "name": "honotest",
+  "version": "0.0.1",
+  "description": "",
+  "license": "ISC",
+  "author": "Ryan Pimiskern",
+  "type": "module",
+  "main": "src/server/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "start": "node dist/server/main.js"
+  },
+  "devDependencies": {
+    "@types/node": "^24.2.0",
+    "@vitejs/plugin-react": "^4.7.0",
+    "typescript": "^5.9.2",
+    "vite": "^7.0.6"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.18.1",
+    "@hono/vite-dev-server": "^0.20.0",
+    "dotenv": "^17.2.1",
+    "hono": "^4.8.12"
+  }
+}
+
