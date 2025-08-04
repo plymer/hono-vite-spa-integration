@@ -1,14 +1,19 @@
 import { Hono } from "hono";
 import { serve } from "@hono/node-server";
-// import { serveStatic } from "@hono/node-server/serve-static";
+import { serveStatic } from "@hono/node-server/serve-static";
 import "dotenv/config";
+import { getClientAssetPath } from "./manifest.js";
 
 const app = new Hono({ strict: false });
 
-const isProd = process.env.AM_I_A_SERVER;
+// make a boolean check for the presence of the server environment variable
+const isProd = !!process.env.AM_I_A_SERVER;
 
 app.get("/", (c) => {
+  const clientScriptPath = getClientAssetPath(isProd);
+
   return c.html(`
+<!DOCTYPE html>
 <html lang="en-CA">
   <head>
    <meta charset="UTF-8" />
@@ -24,11 +29,7 @@ app.get("/", (c) => {
     <link rel="shortcut icon" href="/favicon.ico" />
 
     <title>Prairie Wx</title>
-    ${
-      isProd
-        ? `<script type="module" src="/dist/assets/client.js"></script>`
-        : `<script type="module" src="/src/client/main.tsx"></script>`
-    }
+    <script type="module" src="${clientScriptPath}"></script>
   </head>
   <body>
     <div id="app"></div>
@@ -36,6 +37,12 @@ app.get("/", (c) => {
 </html>
 `);
 });
+
+// Serve static assets in production (after routes)
+if (isProd) {
+  // Serve all static files from dist folder
+  app.use("/*", serveStatic({ root: "./dist" }));
+}
 
 if (isProd) {
   serve(app, (info) => console.log(`Server running at http://localhost:${info.port}`));

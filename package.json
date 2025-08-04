@@ -8,8 +8,10 @@
   "main": "src/server/main.js",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
-    "start": "node dist/server/main.js"
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --mode client",
+    "build:server": "vite build --mode server",
+    "start": "AM_I_A_SERVER=true node dist/server/main.js"
   },
   "devDependencies": {
     "@types/node": "^24.2.0",
