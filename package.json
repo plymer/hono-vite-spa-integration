@@ -13,6 +13,8 @@
   },
   "devDependencies": {
     "@types/node": "^24.2.0",
+    "@types/react": "^19.1.9",
+    "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.7.0",
     "typescript": "^5.9.2",
     "vite": "^7.0.6"
@@ -21,7 +23,9 @@
     "@hono/node-server": "^1.18.1",
     "@hono/vite-dev-server": "^0.20.0",
     "dotenv": "^17.2.1",
-    "hono": "^4.8.12"
+    "hono": "^4.8.12",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
   }
 }
 

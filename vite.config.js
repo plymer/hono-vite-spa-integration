@@ -17,8 +17,6 @@ export default defineConfig({
         entryFileNames: "server/main.js",
       },
     },
-    ssr: true,
-    target: "node18",
   },
   plugins: [
     devServer({
