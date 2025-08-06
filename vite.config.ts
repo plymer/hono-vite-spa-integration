@@ -1,6 +1,8 @@
 import { defineConfig } from "vite";
 import devServer from "@hono/vite-dev-server";
 import nodeAdapter from "@hono/vite-dev-server/node";
+import tailwindcss from "@tailwindcss/vite";
+import react from "@vitejs/plugin-react";
 import path from "path";
 
 export default defineConfig(({ command, mode }) => {
@@ -28,7 +30,8 @@ export default defineConfig(({ command, mode }) => {
       case "client":
       default: // Default to client build if no mode specified
         return {
-          base: "/",
+          base: "./",
+          plugins: [react(), tailwindcss()],
           build: {
             outDir: "dist",
             rollupOptions: {
@@ -70,6 +73,7 @@ export default defineConfig(({ command, mode }) => {
           // }
         },
       }),
+      tailwindcss(),
     ],
     resolve: {
       alias: {

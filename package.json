@@ -14,10 +14,12 @@
     "start": "AM_I_A_SERVER=true node dist/server/main.js"
   },
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.11",
     "@types/node": "^24.2.0",
     "@types/react": "^19.1.9",
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^4.7.0",
+    "tailwindcss": "^4.1.11",
     "typescript": "^5.9.2",
     "vite": "^7.0.6"
   },
@@ -30,4 +32,3 @@
     "react-dom": "^19.1.1"
   }
 }
-

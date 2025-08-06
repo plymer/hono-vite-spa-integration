@@ -3,11 +3,16 @@ import path from "path";
 
 let manifestCache: any = null;
 
-export function getClientAssetPath(isProd: boolean): string {
+export function getClientAssets(isProd: boolean): { js: string; css: string[] } {
   const entry = "src/client/main.tsx";
 
   // In development, return the dev server path
-  if (!isProd) return entry;
+  if (!isProd) {
+    return {
+      js: entry,
+      css: [], // No CSS files in dev mode (Tailwind is processed on-demand)
+    };
+  }
 
   // in production, read the manifest to get the hashed filename
   if (!manifestCache) {
@@ -17,16 +22,30 @@ export function getClientAssetPath(isProd: boolean): string {
       manifestCache = JSON.parse(manifestContent);
     } catch (error) {
       console.error("Failed to read manifest.json:", error);
-      return "/assets/main.js"; // fallback
+      return {
+        js: "/assets/main.js",
+        css: [],
+      };
     }
   }
 
   const asset = manifestCache[entry];
   if (!asset) {
     console.error(`Asset not found in manifest: ${entry}`);
-    return "/assets/main.js"; // fallback
+    return {
+      js: "/assets/main.js",
+      css: [],
+    };
   }
 
-  return `/${asset.file}`;
+  return {
+    js: `/${asset.file}`,
+    css: asset.css ? asset.css.map((file: string) => `/${file}`) : [],
+  };
+}
+
+// Keep the old function for backwards compatibility
+export function getClientAssetPath(isProd: boolean): string {
+  return getClientAssets(isProd).js;
 }
 
