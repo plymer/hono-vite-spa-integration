@@ -44,8 +44,3 @@ export function getClientAssets(isProd: boolean): { js: string; css: string[] } 
   };
 }
 
-// Keep the old function for backwards compatibility
-export function getClientAssetPath(isProd: boolean): string {
-  return getClientAssets(isProd).js;
-}
-
