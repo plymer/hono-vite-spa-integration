@@ -5,7 +5,7 @@ const App = () => {
   const [isClicked, setIsClicked] = useState(false);
 
   const memeUrl =
-    "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDJkNmc1bTZnZTdzdGRld2tsaDVnbHpqYXk5aTFreW4yeW1ld2hsaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Nx0rz3jtxtEre/giphy.gif";
+    "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExNDJkNmc1bTZnZTdzdGRld2tsaDVnbHpqYXk5aTFreW4zeW1ld2hsaSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Nx0rz3jtxtEre/giphy.gif";
 
   return (
     <div className="mx-auto">

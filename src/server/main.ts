@@ -13,6 +13,20 @@ const isProd = !!process.env.AM_I_A_SERVER;
 app.get("/", (c) => {
   const { js: clientBundle, css: cssFiles } = getClientAssets(isProd);
 
+  // React Fast Refresh preamble for development
+  const reactRefreshPreamble = !isProd
+    ? `
+    <script type="module">
+      import RefreshRuntime from "/@react-refresh"
+      RefreshRuntime.injectIntoGlobalHook(window)
+      window.$RefreshReg$ = () => {}
+      window.$RefreshSig$ = () => (type) => type
+      window.__vite_plugin_react_preamble_installed__ = true
+    </script>
+    <script type="module" src="/@vite/client"></script>
+  `
+    : "";
+
   return c.html(`
 <!DOCTYPE html>
 <html lang="en-CA">
@@ -31,6 +45,7 @@ app.get("/", (c) => {
 
     <title>Prairie Wx</title>
     ${cssFiles.map((cssFile) => `<link rel="stylesheet" href="${cssFile}" />`).join("\n    ")}
+    ${reactRefreshPreamble}
     <script type="module" src="${clientBundle}"></script>
   </head>
   <body>

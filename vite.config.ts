@@ -55,24 +55,8 @@ export default defineConfig(({ command, mode }) => {
       devServer({
         entry: "src/server/main.ts",
         adapter: nodeAdapter,
-        handleHotUpdate: ({ server }) => {
-          // for now, we just do a full reload on any file change
-          // we may want to change this later to only reload on specific file/filetype changes
-          server.hot.send({ type: "full-reload" });
-
-          // https://github.com/honojs/vite-plugins/tree/main/packages/dev-server#options
-          // const isSSR = modules.some((mod) => mod._ssrModule);
-          // if (isSSR) {
-          //   server.hot.send({ type: "full-reload" });
-          //   return [];
-          // }
-          // if (file.endsWith(".ts") || file.endsWith(".tsx")) {
-          //   server.ws.send({
-          //     type: "full-reload",
-          //   });
-          // }
-        },
       }),
+      react(),
       tailwindcss(),
     ],
     resolve: {
