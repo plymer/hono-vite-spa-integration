@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-// import siteIcon from "/site-icon.svg";
+// import siteIcon from "./site-icon.svg";
 import Button from "./components/test";
 
 const App = () => {

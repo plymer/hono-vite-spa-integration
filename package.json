@@ -7,21 +7,29 @@
   "type": "module",
   "main": "src/server/main.js",
   "scripts": {
-    "dev": "vite",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build --mode client",
     "build:server": "vite build --mode server",
+    "check": "tsc --noEmit && npm run lint",
+    "dev": "vite",
+    "lint": "eslint .",
     "start": "AM_I_A_SERVER=true node dist/server/main.js"
   },
   "devDependencies": {
+    "@eslint/js": "^9.36.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/node": "^24.5.2",
     "@types/react": "^19.1.15",
     "@types/react-dom": "^19.1.9",
     "@vitejs/plugin-react": "^5.0.4",
+    "eslint": "^9.36.0",
+    "eslint-plugin-react-hooks": "^5.2.0",
+    "eslint-plugin-react-refresh": "^0.4.20",
+    "globals": "^16.4.0",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
-    "vite": "npm:rolldown-vite@latest"
+    "typescript-eslint": "^8.44.0",
+    "vite": "npm:rolldown-vite@7.1.12"
   },
   "dependencies": {
     "@hono/node-server": "^1.19.4",
@@ -32,7 +40,7 @@
     "react-dom": "^19.1.1"
   },
   "overrides": {
-    "vite": "npm:rolldown-vite@latest"
+    "vite": "npm:rolldown-vite@7.1.12"
   }
 }
 
