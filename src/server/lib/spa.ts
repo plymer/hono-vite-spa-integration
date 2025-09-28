@@ -5,7 +5,7 @@ import { getClientAssets } from "./manifest.js";
  * @param isProd - Indicates if the server is running in production mode
  * @returns HTML string for initializing the App's client page.
  */
-export function serveSPA(isProd: boolean): string {
+export function serveSPA(appTitle: string, isProd: boolean): string {
   const { js: clientBundle, css: cssFiles } = getClientAssets(isProd);
 
   // React Fast Refresh preamble for development
@@ -31,14 +31,14 @@ export function serveSPA(isProd: boolean): string {
 
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-title" content="PrairieWx Beta" />
+    <meta name="apple-mobile-web-app-title" content="${appTitle}" />
     <meta name="theme-color" content="#ffffff" />
 
     <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="shortcut icon" href="/favicon.ico" />
 
-    <title>Prairie Wx</title>
+    <title>${appTitle}</title>
     ${cssFiles.map((cssFile) => `<link rel="stylesheet" href="${cssFile}" />`).join("\n    ")}
     ${reactRefreshPreamble}
     <script type="module" src="${clientBundle}"></script>

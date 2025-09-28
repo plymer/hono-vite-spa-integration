@@ -11,7 +11,7 @@ const isProd = !!process.env.AM_I_A_SERVER;
 
 // serve the spa client
 app.get("/", (c) => {
-  return c.html(serveSPA(isProd));
+  return c.html(serveSPA("Prairie Wx", isProd));
 });
 
 // when in production, we have to serve static files from the dist folder
