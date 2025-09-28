@@ -4,6 +4,7 @@
     // File Layout
     "rootDir": "./",
     "outDir": "./dist",
+    "baseUrl": "./",
 
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
@@ -27,7 +28,13 @@
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true
+    "skipLibCheck": true,
+
+    "paths": {
+      "@/*": ["./src/client/*"],
+      "@/shared": ["./src/shared/*"],
+      "@server/*": ["./src/server/*"]
+    }
   },
 
   "include": ["vite.config.ts", "src"]
