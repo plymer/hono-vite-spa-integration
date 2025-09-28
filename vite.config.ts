@@ -4,6 +4,7 @@ import nodeAdapter from "@hono/vite-dev-server/node";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
+import { tanstackRouter } from "@tanstack/router-plugin/vite";
 
 export default defineConfig(({ command, mode }) => {
   if (command === "build") {
@@ -31,7 +32,15 @@ export default defineConfig(({ command, mode }) => {
       default: // Default to client build if no mode specified
         return {
           base: "./",
-          plugins: [react(), tailwindcss()],
+          plugins: [
+            tanstackRouter({
+              target: "react",
+              routesDirectory: "./src/client/routes",
+              generatedRouteTree: "./src/client/routeTree.gen.ts",
+            }),
+            react(),
+            tailwindcss(),
+          ],
           build: {
             outDir: "dist",
             rollupOptions: {
@@ -55,6 +64,11 @@ export default defineConfig(({ command, mode }) => {
       devServer({
         entry: "src/server/main.ts",
         adapter: nodeAdapter,
+      }),
+      tanstackRouter({
+        target: "react",
+        routesDirectory: "./src/client/routes",
+        generatedRouteTree: "./src/client/routeTree.gen.ts",
       }),
       react(),
       tailwindcss(),
