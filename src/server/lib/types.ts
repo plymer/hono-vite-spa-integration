@@ -16,25 +16,30 @@ type ApiResponses<TData> = {
 // discriminated union type for api responses
 export type ApiResponse<TData> = IIMT<ApiResponses<TData>, "status">;
 
-// all valid api endpoints
-export type ApiEndpoints = "test" | "test/error";
+// configuration mapping for all endpoints in the api
+type EndpointConfig = {
+  test: {
+    params: z.infer<typeof testQuerySchema>;
+    data: z.infer<typeof testResponseSchema>;
+  };
+  "test/error": {
+    params: null;
+    data: null;
+  };
+};
 
-// types for the "test" endpoint
-export type TestQuery = z.infer<typeof testQuerySchema>;
-export type TestResponse = z.infer<typeof testResponseSchema>;
+// Extract valid endpoints from the config keys
+export type ApiEndpoints = keyof EndpointConfig;
+
+// Utility type to map endpoints to their configurations
+type MapEndpoints<T extends Record<ApiEndpoints, any>, K extends keyof T[ApiEndpoints]> = {
+  [Endpoint in ApiEndpoints]: T[Endpoint][K];
+};
 
 // map endpoints to their params and response types
-export type ApiParams<Endpoint extends ApiEndpoints> = Endpoint extends "test"
-  ? TestQuery
-  : Endpoint extends "test/error"
-  ? Record<string, never>
-  : never;
+export type ApiParams<Endpoint extends ApiEndpoints> = MapEndpoints<EndpointConfig, "params">[Endpoint];
 
-export type ApiData<Endpoint extends ApiEndpoints> = Endpoint extends "test"
-  ? ApiResponse<TestResponse>
-  : Endpoint extends "test/error"
-  ? ApiResponse<null>
-  : never;
+export type ApiData<Endpoint extends ApiEndpoints> = ApiResponse<MapEndpoints<EndpointConfig, "data">[Endpoint]>;
 
 // Utility type to check if an endpoint requires parameters
 export type HasRequiredParams<T extends ApiEndpoints> = ApiParams<T> extends Record<string, never>
