@@ -20,11 +20,11 @@ export type ApiResponse<TData> = IIMT<ApiResponses<TData>, "status">;
 type EndpointConfig = {
   test: {
     params: z.infer<typeof testQuerySchema>;
-    data: z.infer<typeof testResponseSchema>;
+    response: z.infer<typeof testResponseSchema>;
   };
   "test/error": {
     params: null;
-    data: null;
+    response: null;
   };
 };
 
@@ -38,7 +38,7 @@ type MapEndpoints<T extends Record<ApiEndpoints, any>, K extends keyof T[ApiEndp
 
 // map endpoints to their params and response types
 export type ApiParams<Endpoint extends ApiEndpoints> = MapEndpoints<EndpointConfig, "params">[Endpoint];
-export type ApiData<Endpoint extends ApiEndpoints> = ApiResponse<MapEndpoints<EndpointConfig, "data">[Endpoint]>;
+export type ApiData<Endpoint extends ApiEndpoints> = ApiResponse<MapEndpoints<EndpointConfig, "response">[Endpoint]>;
 
 // utility type to check if an endpoint requires parameters
 export type HasRequiredParams<T extends ApiEndpoints> = ApiParams<T> extends Record<string, never>
