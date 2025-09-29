@@ -28,20 +28,19 @@ type EndpointConfig = {
   };
 };
 
-// Extract valid endpoints from the config keys
+// extract valid endpoints from the config keys
 export type ApiEndpoints = keyof EndpointConfig;
 
-// Utility type to map endpoints to their configurations
+// utility type to map endpoints to their configurations
 type MapEndpoints<T extends Record<ApiEndpoints, any>, K extends keyof T[ApiEndpoints]> = {
   [Endpoint in ApiEndpoints]: T[Endpoint][K];
 };
 
 // map endpoints to their params and response types
 export type ApiParams<Endpoint extends ApiEndpoints> = MapEndpoints<EndpointConfig, "params">[Endpoint];
-
 export type ApiData<Endpoint extends ApiEndpoints> = ApiResponse<MapEndpoints<EndpointConfig, "data">[Endpoint]>;
 
-// Utility type to check if an endpoint requires parameters
+// utility type to check if an endpoint requires parameters
 export type HasRequiredParams<T extends ApiEndpoints> = ApiParams<T> extends Record<string, never>
   ? false
   : keyof ApiParams<T> extends never
