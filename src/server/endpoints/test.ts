@@ -1,20 +1,31 @@
 import { Hono } from "hono";
+import { safeParse } from "zod";
+import { ContentfulStatusCode } from "hono/utils/http-status";
 import { zValidator } from "@hono/zod-validator";
-import { testSchema } from "@server/validation/test-zod";
+
+import { testResponseSchema, testQuerySchema } from "@server/validation/test-zod";
 
 const route = new Hono();
 
-route.get("/", zValidator("query", testSchema), (c) => {
-  console.log("query validation", c.req.valid("query"));
+route.get("/", zValidator("query", testQuerySchema), (c) => {
+  const { name } = c.req.valid("query");
+
+  const errorCode: ContentfulStatusCode[] = [];
+
   try {
-    const { name } = c.req.valid("query");
-    if (!name) {
-      return c.json({ message: "Hello there. The test endpoint is working!" }, 200);
-    } else {
-      return c.json({ message: `Hello ${name}, the test endpoint is working!` }, 200);
+    const res = safeParse(testResponseSchema, {
+      status: "success",
+      response: `Hello ${name}, the test endpoint is working!`,
+    });
+
+    if (!res.success) {
+      errorCode.push(403);
+      throw new Error("Response validation failed");
     }
+
+    return c.json(res.data, 200);
   } catch (error) {
-    return c.json({ error: "An unexpected error occurred." }, 500);
+    return c.json(null, errorCode[0]);
   }
 });
 
