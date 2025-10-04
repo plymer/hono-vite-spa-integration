@@ -5,12 +5,12 @@ import { useApi } from "@/hooks/useApi";
 const App = () => {
   const [isClicked, setIsClicked] = useState(false);
 
-  const { data, fetchStatus } = useApi("test", { name: "Ryan" });
+  const { data, fetchStatus } = useApi("test", { name: "Ryan", age: 38, active: false });
 
-  const hasError = data?.status === "error";
+  const hasError = data.status === "error";
   const error = hasError ? data.message : null;
 
-  const isSuccess = data?.status === "success";
+  const isSuccess = data.status === "success";
   const response = isSuccess ? data.response : null;
 
   const memeUrl =
@@ -18,7 +18,7 @@ const App = () => {
 
   return (
     <div className="mx-auto">
-      <img src={"./site-icon.svg"} alt="Site Icon" className="w-32 h-32 mx-auto my-4" />
+      <img src="./site-icon.svg" alt="Site Icon" className="w-32 h-32 mx-auto my-4" />
       <h1 className="text-4xl mx-auto my-4 text-center">This is test my app, lol</h1>
       <Button isClicked={isClicked} setIsClicked={setIsClicked} />
       {isClicked && <img src={memeUrl} alt="Meme" className="mx-auto my-4" />}

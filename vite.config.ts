@@ -1,4 +1,4 @@
-import { defineConfig, UserConfig } from "vite";
+import { defineConfig, type UserConfig } from "vite";
 import devServer from "@hono/vite-dev-server";
 import nodeAdapter from "@hono/vite-dev-server/node";
 import tailwindcss from "@tailwindcss/vite";

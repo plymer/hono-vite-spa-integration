@@ -1,4 +1,4 @@
-import { getClientAssets } from "./manifest.js";
+import { getClientAssets } from "./manifest";
 
 /**
  * Generates the HTML for the Single Page Application (SPA) to be served.

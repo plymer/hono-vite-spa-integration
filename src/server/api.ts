@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 
-import testRoute from "./endpoints/test.js";
+import testRoute from "./endpoints/test";
 
 const api = new Hono();
 

@@ -32,7 +32,7 @@
 
     "paths": {
       "@/*": ["./src/client/*"],
-      "@/shared": ["./src/shared/*"],
+      "@shared/*": ["./src/shared/*"],
       "@server/*": ["./src/server/*"]
     }
   },

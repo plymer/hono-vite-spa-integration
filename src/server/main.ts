@@ -3,8 +3,8 @@ import { compress } from "hono/compress";
 import { serve } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import "dotenv/config";
-import { serveSPA } from "./lib/spa.js";
-import api from "./api.js";
+import { serveSPA } from "./lib/serveSpa";
+import api from "./api";
 
 const app = new Hono({ strict: false });
 
