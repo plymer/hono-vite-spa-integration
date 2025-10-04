@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import Button from "@/components/test";
 import { useApi } from "@/hooks/useApi";
 
@@ -23,14 +23,13 @@ const App = () => {
       <Button isClicked={isClicked} setIsClicked={setIsClicked} />
       {isClicked && <img src={memeUrl} alt="Meme" className="mx-auto my-4" />}
       <p className="text-center text-gray-600">Fetch status: {fetchStatus}</p>
-      <p className="text-center">Is there data? {data ? "Yes!" : "Nope!"}</p>
       <p className="text-center">Is there an error: {hasError ? error : "Nope!"}</p>
-      {data && (
+      <Suspense fallback={<div className="text-center text-gray-600">Loading data...</div>}>
         <div className="bg-gray-100 p-4 rounded shadow-md max-w-md mx-auto my-4">
           <h2 className="text-2xl mb-2">Data from API (test):</h2>
           <pre className="whitespace-pre-wrap">{isSuccess && JSON.stringify(response, null, 2)}</pre>
         </div>
-      )}
+      </Suspense>
     </div>
   );
 };
