@@ -14,7 +14,7 @@
     "dev": "vite",
     "lint": "eslint .",
     "start": "pm2 restart ecosystem.config.cjs",
-    "deploy": "pm2 stop ecosystem.config.cjs && npm i --include-dev && npm run build && pm2 start ecosystem.config.cjs && pm2 save"
+    "deploy": "pm2 stop ecosystem.config.cjs && npm i && npm run build && pm2 start ecosystem.config.cjs && pm2 save"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
