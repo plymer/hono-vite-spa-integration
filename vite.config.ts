@@ -1,15 +1,30 @@
-import { defineConfig } from "vite";
+import { defineConfig, UserConfig } from "vite";
 import devServer from "@hono/vite-dev-server";
 import nodeAdapter from "@hono/vite-dev-server/node";
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
-import path from "path";
+import { resolve } from "path";
+
+const pathAliases: UserConfig["resolve"] = {
+  alias: {
+    "@": resolve(__dirname, "src/client"),
+    "@shared": resolve(__dirname, "src/shared"),
+    "@server": resolve(__dirname, "src/server"),
+  },
+};
+
+const baseClientConfig: UserConfig = {
+  base: "./",
+  plugins: [react(), tailwindcss()],
+  resolve: pathAliases,
+};
 
 export default defineConfig(({ command, mode }) => {
   if (command === "build") {
     switch (mode) {
       case "server":
         return {
+          resolve: pathAliases,
           build: {
             outDir: "dist",
             emptyOutDir: false, // don't clear the dist folder, since we have already built the client
@@ -30,8 +45,7 @@ export default defineConfig(({ command, mode }) => {
       case "client":
       default: // Default to client build if no mode specified
         return {
-          base: "./",
-          plugins: [react(), tailwindcss()],
+          ...baseClientConfig,
           build: {
             outDir: "dist",
             rollupOptions: {
@@ -50,22 +64,14 @@ export default defineConfig(({ command, mode }) => {
 
   // dev configuration
   return {
-    base: "./",
+    ...baseClientConfig,
     plugins: [
       devServer({
         entry: "src/server/main.ts",
         adapter: nodeAdapter,
       }),
-      react(),
-      tailwindcss(),
+      ...baseClientConfig.plugins!,
     ],
-    resolve: {
-      alias: {
-        "@": path.resolve(__dirname, "src/client"),
-        "@shared": path.resolve(__dirname, "src/shared"),
-        "@server": path.resolve(__dirname, "src/server"),
-      },
-    },
   };
 });
 
